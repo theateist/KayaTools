@@ -620,101 +620,6 @@ void configLoggers()
 	//root << log4cpp::Priority::INFO << "test2";
 }
 
-void fooGet()
-{
-	log4cpp::Category& log = log4cpp::Category::getRoot();
-
-	FrameGrabberVec frameGrabbers;
-	try
-	{
-		log << log4cpp::Priority::NOTICE << "Discovering frame grabbers";
-		getFrameGrabbers(frameGrabbers);
-
-		if (frameGrabbers.size() > 0)
-		{
-			unsigned int fgIndex = 1;
-			cout << "Detected frame grabbers:" << endl;
-			for each (const FrameGrabber& fg in frameGrabbers)
-			{
-				cout << "\t" << fgIndex++ << " - " << fg.serialNumber << endl;
-			}
-
-			vector<unsigned int> selectedFGs = selectDevices(frameGrabbers.size());
-			for each (auto fgIndex in selectedFGs)
-			{
-				double timeout = KYFG_GetGrabberValueFloat(frameGrabbers.at(fgIndex).handle, "DeviceLinkCommandTimeout");
-				if(timeout == INT_MAX)
-				{
-					cout << frameGrabbers.at(fgIndex).serialNumber << ": Failed to read timeout" << endl;
-					continue;
-				}
-
-				cout << frameGrabbers.at(fgIndex).serialNumber << ": " << timeout << endl;
-			}
-		}
-		else
-		{
-			log << log4cpp::Priority::WARN << "No frame grabbers were discovered";
-		}
-	}
-	catch(exception& ex)
-	{
-		log << log4cpp::Priority::ERROR << ex.what();
-	}
-
-	log << log4cpp::Priority::NOTICE << "Closing frame grabbers";
-	closeFrameGrabbers(frameGrabbers);
-	log << log4cpp::Priority::NOTICE << "Done";
-}
-
-void fooSet(float t)
-{
-	std::cout << std::fixed << std::setprecision(3) << t;
-	log4cpp::Category& log = log4cpp::Category::getRoot();
-
-	FrameGrabberVec frameGrabbers;
-	try
-	{
-		log << log4cpp::Priority::NOTICE << "Discovering frame grabbers";
-		getFrameGrabbers(frameGrabbers);
-
-		if (frameGrabbers.size() > 0)
-		{
-			unsigned int fgIndex = 1;
-			cout << "Detected frame grabbers:" << endl;
-			for each (const FrameGrabber& fg in frameGrabbers)
-			{
-				cout << "\t" << fgIndex++ << " - " << fg.serialNumber << endl;
-			}
-
-			vector<unsigned int> selectedFGs = selectDevices(frameGrabbers.size());
-			for each (auto fgIndex in selectedFGs)
-			{
-				double timeout = KYFG_SetGrabberValueFloat(frameGrabbers.at(fgIndex).handle, "DeviceLinkCommandTimeout", t);
-				if(timeout == INT_MAX)
-				{
-					cout << frameGrabbers.at(fgIndex).serialNumber << ": Failed to read timeout to" << t << endl;
-					continue;
-				}
-
-				cout << frameGrabbers.at(fgIndex).serialNumber << ": " << timeout << endl;
-			}
-		}
-		else
-		{
-			log << log4cpp::Priority::WARN << "No frame grabbers were discovered";
-		}
-	}
-	catch(exception& ex)
-	{
-		log << log4cpp::Priority::ERROR << ex.what();
-	}
-
-	log << log4cpp::Priority::NOTICE << "Closing frame grabbers";
-	closeFrameGrabbers(frameGrabbers);
-	log << log4cpp::Priority::NOTICE << "Done";
-}
-
 //TODO: add log4cpp_debug.lib
 int main(int argc, _TCHAR* argv[])
 {
@@ -732,18 +637,10 @@ int main(int argc, _TCHAR* argv[])
 		ValueArg<string> lutOutArg("o", "out_lut", "Dump LUT values", true, "", "out_dir");
 		SwitchArg pocxpSwitch("p", "pocxp", "Power cycle cameras");
 
-		SwitchArg timeoutGetArg("", "t1", "Set timeout");
-		ValueArg<double> timeoutSetArg("", "t2", "Set timeout", false, 0, "timeout");
-		
-
 		vector<Arg*> xorlist;
         xorlist.push_back(&lutArg);
         xorlist.push_back(&lutOutArg);
         xorlist.push_back(&pocxpSwitch);
-
-        xorlist.push_back(&timeoutGetArg);
-        xorlist.push_back(&timeoutSetArg);
-
 		cmd.xorAdd(xorlist);
 
 		cmd.parse(argc,argv);
@@ -759,14 +656,6 @@ int main(int argc, _TCHAR* argv[])
 		else if (pocxpSwitch.isSet())
 		{
 			powerCycleRangeExtender();
-		}
-		else if(timeoutGetArg.isSet())
-		{
-			fooGet();
-		}
-		else if (timeoutSetArg.isSet())
-		{
-			fooSet(timeoutSetArg.getValue());
 		}
 	}
 	catch (ArgException& e)
