@@ -631,7 +631,7 @@ int main(int argc, _TCHAR* argv[])
 
 		//TODO: how to do {-l <string> [--no_flush] | -o <string> | -p}
 		ValueArg<string> lutArg("l", "lut", "Set LUT", true, "", "lut_filename");
-		SwitchArg noLUTFlashSwitch("", "no_flash", "Do not flash LUT");
+		SwitchArg noLUTFlashSwitch("", "no_flash", "Do not flash LUT [ONLY valid with " + lutArg.toString() + " argument]");
 		cmd.add(noLUTFlashSwitch);
 
 		ValueArg<string> lutOutArg("o", "out_lut", "Dump LUT values", true, "", "out_dir");
