@@ -60,7 +60,6 @@ void getCameras(map<FGHANDLE, CameraVec>& camsFG)
 		// =============== open frame grabber ===============
 
 		FGHANDLE fgHandle = KYFG_Open(grabberIndex);
-		//TODO: how to check if it's a vritual?
 		if (fgHandle == -1)
 		{
 			log << log4cpp::Priority::ERROR << "Failed to connect to grabber. Reason: " << std::hex << fgHandle;
@@ -134,7 +133,6 @@ void getFrameGrabbers(FrameGrabberVec& frameGrabbers)
 	for(unsigned int grabberIndex = 0; grabberIndex < numFG; ++grabberIndex)
 	{
 		FGHANDLE fgHandle = KYFG_Open(grabberIndex);
-		//TODO: how to check if it's a vritual?
 		if (fgHandle == -1)
 		{
 			log << log4cpp::Priority::ERROR << "Failed to connect to grabber. Reason: " << std::hex << fgHandle;
