@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)$(SolutionName)\VisionPoint\include;$(SolutionDir)$(SolutionName)\;C:\Program Files (x86)\boost_1_55_0;$(SolutionDir)$(SolutionName)\log4cpp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Common\VisionPoint\include;$(SolutionDir)$(SolutionName)\;C:\Program Files (x86)\boost_1_55_0;$(SolutionDir)Common\log4cpp\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -51,7 +51,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(SolutionName)\VisionPoint\lib;C:\Program Files\boost_1_55_0\lib64-msvc-11.0;$(SolutionDir)$(SolutionName)\log4cpp\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Common\Libs;C:\Program Files (x86)\boost_1_55_0\lib64-msvc-11.0;</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;KYFGLib.lib;log4cpp.lib</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -59,7 +59,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)$(SolutionName)\VisionPoint\include;$(SolutionDir)$(SolutionName)\;C:\Program Files (x86)\boost_1_55_0;$(SolutionDir)$(SolutionName)\log4cpp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Common\VisionPoint\include;$(SolutionDir)Common\;C:\Program Files (x86)\boost_1_55_0;$(SolutionDir)Common\log4cpp\include</AdditionalIncludeDirectories>
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -67,7 +67,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(SolutionName)\VisionPoint\lib;C:\Program Files (x86)\boost_1_55_0\lib64-msvc-11.0;$(SolutionDir)$(SolutionName)\log4cpp\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Common\Libs;C:\Program Files (x86)\boost_1_55_0\lib64-msvc-11.0;</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;KYFGLib.lib;log4cpp.lib</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -75,6 +75,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /E /Q /Y /I "$(SolutionDir)Common\Bin" "$(SolutionDir)$(Configuration)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

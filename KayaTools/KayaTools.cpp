@@ -1,9 +1,4 @@
 #include "stdafx.h"
-#include "log4cpp/Appender.hh"
-#include "log4cpp/OstreamAppender.hh"
-#include "log4cpp/FileAppender.hh"
-#include "log4cpp/Category.hh"
-#include "log4cpp/PatternLayout.hh"
 
 using namespace std;
 using namespace TCLAP;
@@ -615,9 +610,6 @@ void configLoggers()
     root.setPriority(log4cpp::Priority::INFO);
     root.addAppender(consoleAppender);
     root.addAppender(fileAppender);
-
-	//root << log4cpp::Priority::DEBUG << "test1";
-	//root << log4cpp::Priority::INFO << "test2";
 }
 
 //TODO: add log4cpp_debug.lib
